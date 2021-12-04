@@ -1,0 +1,92 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #263343;
+  padding: 14px 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+span,
+a {
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
+.navbar__logo {
+  font-size: 24px;
+  font-family: 'Black Han Sans', sans-serif;
+}
+.navbar__logo i {
+  color: #d49466;
+  padding: 8px;
+}
+.navbar__menu {
+  display: flex;
+  list-style: none;
+  padding-right: 8%;
+}
+
+.navbar__menu li {
+  padding: 8px 32px;
+}
+
+.navbar__menu li:hover {
+  background-color: #d49466;
+  border-radius: 4px;
+}
+.navbar__button {
+  display: flex;
+}
+.navbar__button span {
+  background-color: #263343;
+  color: white;
+  padding: 8px;
+  padding-right: 20px;
+  font-size: 16px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.navbar__button span:hover {
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: #d49466;
+}
+.navbar__toggleBtn {
+  display: none;
+  position: absolute;
+  right: 32px;
+  font-size: 24px;
+  color: #d49466;
+}
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .navbar__menu {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 0;
+  }
+  .navbar__menu li {
+    width: 100%;
+    text-align: center;
+  }
+  .navbar__button {
+    width: 100%;
+    justify-content: center;
+    background-color: black;
+  }
+  .navbar__button span {
+    width: 100%;
+    text-align: center;
+    padding-right: 8px;
+  }
+  .navbar__toggleBtn {
+    display: block;
+  }
+  .navbar__menu__active,
+  .navbar__button__active {
+    display: none;
+  }
+}
