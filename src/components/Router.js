@@ -4,7 +4,6 @@ import Auth from '../routes/Auth';
 import Home from '../routes/Home';
 import Profile from '../routes/Profile';
 import Navigation from './Navigation';
-import Enter from '../routes/Enter';
 import Enroll from '../routes/Enroll';
 
 const AppRouter = ({ isLoggedIn, userObj }) => {

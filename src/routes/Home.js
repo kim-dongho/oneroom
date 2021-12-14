@@ -4,26 +4,24 @@ import Room from '../components/Room';
 import { dbService } from '../fbase';
 
 const Home = ({ userObj }) => {
-  const [nweets, setNweets] = useState([]);
+  const [rooms, setRooms] = useState([]);
 
-  const getNweets = async () => {
-    onSnapshot(query(collection(dbService, 'nweets'), orderBy('createAt', 'desc')), (snapshot) => {
-      const nweetArray = snapshot.docs.map((doc) => ({
+  const getRooms = async () => {
+    onSnapshot(query(collection(dbService, 'rooms'), orderBy('createAt', 'desc')), (snapshot) => {
+      const roomArray = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      setNweets(nweetArray);
+      setRooms(roomArray);
     });
   };
   useEffect(() => {
-    getNweets();
+    getRooms();
   }, []);
 
   return (
     <div>
-      <div>
-        <Room nweetObj={nweets} />
-      </div>
+      <Room roomObj={rooms} />
     </div>
   );
 };

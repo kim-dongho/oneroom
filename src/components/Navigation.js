@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { icons } from 'react-icons/lib';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../fbase';
 import './Navigation.css';
@@ -21,6 +20,9 @@ const Navigation = ({ userObj, isLoggedIn }) => {
     } else {
       Navigate('/auth');
     }
+  };
+  const moveHome = () => {
+    Navigate('/');
   };
   const moveEnroll = () => {
     if (isLoggedIn) {
@@ -44,28 +46,29 @@ const Navigation = ({ userObj, isLoggedIn }) => {
       window.removeEventListener('resize', handleToggle);
     };
   }, []);
+
   return (
     <nav className='navbar'>
       <div className='navbar__logo'>
-        <i class='fas fa-home'></i>
+        <i className='fas fa-home'></i>
         <Link to='/'>One Room</Link>
       </div>
       <ul className={isActive ? 'navbar__menu__active' : 'navbar__menu'}>
-        <li>
-          <Link to='/'>홈</Link>
+        <li onClick={moveHome}>
+          <span>홈</span>
+        </li>
+        <li onClick={moveEnroll}>
+          <span>정보 등록</span>
         </li>
         <li>
-          <span onClick={moveEnroll}>정보 등록</span>
-        </li>
-        <li>
-          <span onClick={moveProfile}>프로필</span>
+          <span onClick={moveProfile}>내 등록정보</span>
         </li>
       </ul>
       <div className={isActive ? 'navbar__button__active' : 'navbar__button'}>
         <span onClick={changeState}>{isLoggedIn ? '로그아웃' : '로그인'}</span>
       </div>
-      <a herf='#' class='navbar__toggleBtn'>
-        <i class='fas fa-bars' onClick={handleToggle}></i>
+      <a herf='#' className='navbar__toggleBtn'>
+        <i className='fas fa-bars' onClick={handleToggle}></i>
       </a>
     </nav>
   );

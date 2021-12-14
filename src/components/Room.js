@@ -1,40 +1,13 @@
 /*global kakao*/
 import React, { useState, useEffect } from 'react';
-import { dbService, storageService } from '../fbase';
-import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
-import { deleteObject, ref } from '@firebase/storage';
 import StarRatingComponent from 'react-star-rating-component';
 import { ProSidebar, Menu, MenuItem, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';
+import 'react-pro-sidebar/dist/css/styles.css';
 import './Room.css';
-const Room = ({ nweetObj }) => {
-  const NweetTextRef = doc(dbService, 'nweets', `${nweetObj.id}`);
-  const [editing, setEditing] = useState(false);
-  const [newNweet, setNewNweet] = useState(nweetObj.text);
+const Room = ({ roomObj }) => {
   const [markerData, setMarkerData] = useState([]);
   const [address, setAddress] = useState('');
-  const onDeleteClick = async () => {
-    const ok = window.confirm('Are you sure you want to delete this nweet?');
-    if (ok) {
-      await deleteDoc(NweetTextRef);
-      if (nweetObj.attachmentUrl !== '') {
-        await deleteObject(ref(storageService, nweetObj.attachmentUrl));
-      }
-    }
-  };
-  const toggleEditing = () => setEditing((prev) => !prev);
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    updateDoc(NweetTextRef, {
-      text: newNweet,
-    });
-    setEditing(false);
-  };
-  const onChange = async (event) => {
-    const {
-      target: { value },
-    } = event;
-    setNewNweet(value);
-  };
+  const [menuCollapse, setMenuCollapse] = useState(true);
 
   const markMarker = () => {
     const container = document.getElementById('myMap');
@@ -45,20 +18,20 @@ const Room = ({ nweetObj }) => {
     };
     const map = new kakao.maps.Map(container, options);
 
-    nweetObj.forEach((el) => {
-      const content = document.createElement('div');
+    roomObj.forEach((el) => {
       const coords = new kakao.maps.LatLng(el.roomLatLan[0], el.roomLatLan[1]);
       const marker = new kakao.maps.Marker({
-        map: map,
         position: coords,
       });
+      marker.setMap(map);
       kakao.maps.event.addListener(marker, 'click', function () {
         setMarkerData([]);
-        nweetObj.forEach((data) => {
+        roomObj.forEach((data) => {
           if (data.roomLatLan[1] == marker.getPosition().getLng().toFixed(12)) {
             setMarkerData((prev) => [...prev, data]);
           }
         });
+        setMenuCollapse(false);
         setAddress(el.roomAddress);
       });
     });
@@ -69,24 +42,49 @@ const Room = ({ nweetObj }) => {
   };
   useEffect(() => {
     markMarker();
-  }, [nweetObj]);
+  }, [roomObj]);
 
   return (
     <>
       <div className='mapWrap'>
-        <ProSidebar>
-          <SidebarHeader>{address}</SidebarHeader>
-          <SidebarContent>
-            {markerData.map((data) => (
-              <div className='dataWrap'>
-                <StarRatingComponent name='rate1' starCount={5} value={data.roomRating} />
-                {data.attachmentUrl && <img src={data.attachmentUrl} width='50px' height='50px' onClick={showBigPicture} />}
-                <div>{data.roomAdvantage}</div>
-                <div>{data.roomDisAdvantage}</div>
-              </div>
-            ))}
-          </SidebarContent>
-          <SidebarFooter></SidebarFooter>
+        <ProSidebar collapsed={menuCollapse}>
+          <SidebarHeader>
+            <div className='logotext'>
+              {/* small and big change using menucollapse state */}
+              <p>{menuCollapse ? ' ' : address}</p>
+            </div>
+            <div className='closemenu' onClick={() => setMenuCollapse(!menuCollapse)}>
+              {/* changing menu collapse icon on click */}
+              {menuCollapse ? <i className='fas fa-chevron-right'></i> : <i className='fas fa-chevron-left'></i>}
+            </div>
+          </SidebarHeader>
+          {menuCollapse ? (
+            <SidebarContent />
+          ) : (
+            <SidebarContent>
+              {markerData.map((data) => (
+                <div className='dataWrap'>
+                  <div className='roomdata'>
+                    <div>
+                      별점 : <StarRatingComponent name='rate' starCount={5} value={data.roomRating} />
+                    </div>
+                    <div>장점 : {data.roomAdvantage}</div>
+                    <div>단점 : {data.roomDisAdvantage}</div>
+                    <div>옵션 : {data.roomOption}</div>
+                    <div>공과금 : {data.roomUtilities}</div>
+                    <div>방값 : {data.roomCost}</div>
+                    <div>기타 : {data.roomEtc}</div>
+                  </div>
+                  <div className='roomphoto'>{data.attachmentUrl && <img src={data.attachmentUrl} width='100px' height='100px' onClick={showBigPicture} />}</div>
+                </div>
+              ))}
+            </SidebarContent>
+          )}
+          <SidebarFooter>
+            <Menu iconShape='square'>
+              <MenuItem></MenuItem>
+            </Menu>
+          </SidebarFooter>
         </ProSidebar>
         <div id='myMap'></div>
       </div>

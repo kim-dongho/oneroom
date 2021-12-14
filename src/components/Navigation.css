@@ -6,8 +6,8 @@
   padding: 14px 12px;
   font-family: 'Noto Sans KR', sans-serif;
 }
-span,
-a {
+.navbar span,
+.navbar a {
   text-decoration: none;
   color: white;
   cursor: pointer;
@@ -33,6 +33,7 @@ a {
 .navbar__menu li:hover {
   background-color: #d49466;
   border-radius: 4px;
+  cursor: pointer;
 }
 .navbar__button {
   display: flex;

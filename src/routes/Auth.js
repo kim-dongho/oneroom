@@ -20,13 +20,13 @@ const Auth = () => {
   return (
     <div className='auth__wrap'>
       <div className='auth__logo'>
-        <i class='fas fa-home'></i>
+        <i className='fas fa-home'></i>
         One Room
       </div>
       <AuthForm />
-      <button name='google' onClick={onSocialClick}>
+      <button className='google' name='google' onClick={onSocialClick}>
         Continue with Google
-        <i class='fab fa-google'></i>
+        <i className='fab fa-google'></i>
       </button>
     </div>
   );

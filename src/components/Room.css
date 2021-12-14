@@ -2,24 +2,55 @@
   width: 100%;
   height: 100vh;
   position: absolute;
+  color: white;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.pro-sidebar > .pro-sidebar-inner {
+  background-color: #fff;
 }
 .mapWrap .pro-sidebar {
   width: 30%;
   height: 100vh;
   z-index: 9999;
   position: absolute;
+}
+.mapWrap .closemenu {
+  color: #000;
+  position: absolute;
+  right: 10%;
+  z-index: 9999;
+  line-height: 20px;
+  font-weight: bold;
+  font-size: 22px;
+  cursor: pointer;
+  top: 50%;
+  width: 20px;
+  height: 25px;
+  text-align: center;
   background-color: white;
+  border-top-right-radius: 80px;
+  border-bottom-right-radius: 80px;
 }
-.mapWrap .SidebarHeader {
+.pro-sidebar-header {
   height: 10vh;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid black;
 }
-.mapWrap .SidebarContent {
+
+.pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout .pro-sidebar-header {
+  border-bottom: 1px solid black;
+}
+.logotext p {
+  font-size: 16px;
+}
+.mapWrap .pro-sidebar-content {
   height: 90vh;
-  background-color: #eee;
 }
 .mapWrap .pro-sidebar.collapsed {
-  width: 80px;
-  min-width: 80px;
+  width: 20px;
+  min-width: 20px;
 }
 .mapWrap .pro-sidebar-inner {
   background-color: white;
@@ -28,8 +59,8 @@
 .mapWrap .pro-sidebar-inner .pro-sidebar-layout {
   overflow-y: hidden;
 }
-.mapWrap .pro-sidebar-inner .pro-sidebar-layout .logotext p {
-  font-size: 20px;
+.mapWrap .pro-sidebar-inner .pro-sidebar-layout {
+  font-size: 12px;
   padding: 0 20px;
   color: #000;
   font-weight: bold;
@@ -50,11 +81,23 @@
 .mapWrap .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper .pro-item-content {
   color: #000;
 }
-.mapWrap .pro-sidebar-inner .pro-sidebar-layout .active {
-  background-image: linear-gradient(0deg, #fece00 0%, #ffe172 100%);
+.pro-sidebar-content {
+  overflow: auto;
 }
-.mapWrap .logo {
-  padding: 20px;
+.dataWrap {
+  display: flex;
+  justify-content: flex-start;
+  margin: 20px 20px 0px 0px;
+  line-height: 25px;
+  font-size: 15px;
+  border-bottom: 1px solid black;
+  width: 100%;
+}
+.roomdata {
+  width: 60%;
+}
+.roomphoto {
+  cursor: pointer;
 }
 #myMap {
   height: 100vh;
@@ -64,9 +107,26 @@
   .mapWrap .pro-sidebar {
     width: 35%;
   }
+  .mapWrap .pro-sidebar-inner .pro-sidebar-layout .logotext p {
+    font-size: 10px;
+    margin-right: 20px;
+  }
 }
 @media screen and (max-width: 768px) {
   .mapWrap .pro-sidebar {
-    width: 40%;
+    width: 50%;
+  }
+  .dataWrap {
+    font-size: 10px;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .roomdata {
+    width: 100%;
+  }
+  .roomphoto img {
+    margin-top: 20px;
+    width: 70px;
+    height: 70px;
   }
 }

@@ -48,7 +48,7 @@ const AuthForm = () => {
   return (
     <div className='auth__submit'>
       <form className='auth__form' onSubmit={onSubmit}>
-        <input name='email' type='email' placeholder='Email' required value={email} onChange={onChange}></input>
+        <input name='email' type='email' placeholder='E-mail' required value={email} onChange={onChange} />
         <input name='password' type='password' placeholder='Password' required value={password} onChange={onChange} />
         <input type='submit' value={newAccount ? '계정 만들기' : '로그인'} />
         {error}

@@ -1,0 +1,128 @@
+.enroll {
+  width: 100%;
+  height: 110vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.enroll__wrap {
+  width: 50%;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+.enroll__text {
+  margin-bottom: 20px;
+}
+.enroll__text span {
+  font-size: 28px;
+  font-family: 'Black Han Sans', sans-serif;
+}
+.enroll__text i {
+  color: #d49466;
+  padding: 8px;
+  font-size: 28px;
+}
+.enroll__form {
+  flex-direction: column;
+  width: 100%;
+}
+
+.enroll input[type='text'] {
+  width: 60%;
+  height: 30px;
+  border-radius: 5px;
+  border: 2px solid #eee;
+  margin: 8px;
+}
+
+.field__input {
+  width: 40%;
+}
+.rate {
+  font-size: 30px;
+}
+.enroll__address {
+  margin-left: 32px;
+}
+.enroll__address button {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  height: 30px;
+  width: 60px;
+  cursor: pointer;
+}
+.enroll__address i {
+  padding: 4px;
+}
+
+.enroll__rate span {
+  padding-bottom: 5px;
+}
+.filebox {
+  margin-top: 20px;
+}
+.filebox .upload-name {
+  display: inline-block;
+  height: 40px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border: 1px solid #dddddd;
+  width: 50%;
+  color: #999999;
+}
+.filebox label {
+  display: inline-block;
+  padding: 10px 20px;
+  color: #fff;
+  vertical-align: middle;
+  background-color: black;
+  cursor: pointer;
+  height: 40px;
+  margin-left: 10px;
+}
+.filebox input[type='file'] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+.filebox button {
+  border: none;
+  color: black;
+  background-color: white;
+}
+.form__submit {
+  height: 40px;
+  width: 100px;
+  margin-top: 20px;
+  background-color: #07a0fd;
+  color: white;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width: 768px) {
+  .enroll__wrap {
+    width: 100%;
+  }
+  .enroll input[type='text'] {
+    width: 70%;
+  }
+  .enroll__address {
+    margin-left: 0px;
+  }
+  .enroll__address input[type='text'] {
+    width: 60%;
+  }
+}

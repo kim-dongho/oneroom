@@ -1,21 +1,31 @@
 /*global kakao*/
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import { addDoc, collection } from '@firebase/firestore';
 import { getDownloadURL, ref, uploadString } from '@firebase/storage';
 import { dbService, storageService } from '../fbase';
 import { v4 as uuidv4 } from 'uuid';
 import StarRatingComponent from 'react-star-rating-component';
+import Modal from 'react-modal';
+import './Enroll.css';
+
 const Enroll = ({ userObj }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [myAddress, setMyAddress] = useState(''); // 주소
   const [advantage, setAdvantage] = useState(''); // 장점
   const [disadvantage, setDisadvantage] = useState(''); // 단점
   const [rating, setRating] = useState(0); // 별점
-  const [attachment, setAttachment] = useState('');
+  const [attachment, setAttachment] = useState(''); // 사진
+  const [option, setOption] = useState(''); // 방 옵션
+  const [utilities, setUtilities] = useState(''); // 공과금 여부
+  const [cost, setCost] = useState(''); // 방 값
+  const [etc, setEtc] = useState(''); // 기타
   const [latLan, setLatLag] = useState([]);
+  const [fileName, setFileName] = useState('');
+  const [disabled, setDisabled] = useState(false);
 
   const onSubmit = async (event) => {
+    setDisabled(true);
     event.preventDefault();
     let attachmentUrl = '';
     if (attachment !== '') {
@@ -23,23 +33,31 @@ const Enroll = ({ userObj }) => {
       const response = await uploadString(fileRef, attachment, 'data_url');
       attachmentUrl = await getDownloadURL(response.ref);
     }
-    const nweetObj = {
+    const roomObj = {
       roomAddress: myAddress,
       roomRating: rating,
       roomAdvantage: advantage,
       roomDisAdvantage: disadvantage,
       roomLatLan: latLan,
-
+      roomOption: option,
+      roomUtilities: utilities,
+      roomCost: cost,
+      roomEtc: etc,
       createAt: Date.now(),
       creatorId: userObj.uid,
       attachmentUrl,
     };
-    await addDoc(collection(dbService, 'nweets'), nweetObj);
+    await addDoc(collection(dbService, 'rooms'), roomObj);
     setMyAddress('');
     setAdvantage('');
     setDisadvantage('');
     setAttachment('');
+    setOption('');
+    setUtilities('');
+    setEtc('');
     setRating(0);
+    setDisabled(false);
+    setCost('');
   };
 
   const onChange = (event) => {
@@ -53,6 +71,14 @@ const Enroll = ({ userObj }) => {
       setAdvantage(value);
     } else if (name === 'disadvantage') {
       setDisadvantage(value);
+    } else if (name === 'option') {
+      setOption(value);
+    } else if (name === 'utilities') {
+      setUtilities(value);
+    } else if (name === 'etc') {
+      setEtc(value);
+    } else if (name === 'cost') {
+      setCost(value);
     }
   };
 
@@ -69,9 +95,13 @@ const Enroll = ({ userObj }) => {
       setAttachment(result);
     };
     reader.readAsDataURL(theFile);
+    setFileName(event.target.files[0].name);
   };
 
-  const onClearAttachment = () => setAttachment('');
+  const onClearAttachment = () => {
+    setAttachment('');
+    setFileName('');
+  };
 
   const handleComplete = (data) => {
     const geocoder = new kakao.maps.services.Geocoder();
@@ -97,36 +127,69 @@ const Enroll = ({ userObj }) => {
   };
 
   return (
-    <>
-      <div>
-        <button onClick={() => setIsOpen(!isOpen)}>주소찾기</button>
-        {isOpen && <DaumPostcode onComplete={handleComplete} />}
-        <span>{myAddress}</span>
-      </div>
-      <form onSubmit={onSubmit}>
-        주소
-        <input type='text' name='address' placeholder="What's on your mind?" maxLength={120} value={myAddress} onChange={onChange} />
-        <br />
-        장점
-        <input type='text' name='advantage' placeholder="What's on your mind?" maxLength={120} value={advantage} onChange={onChange} />
-        <br />
-        단점
-        <input type='text' name='disadvantage' placeholder="What's on your mind?" maxLength={120} value={disadvantage} onChange={onChange} />
-        <br />
-        <input type='file' accpet='image/*' onChange={onFileChange} />
-        <input type='submit' value='Nweet' />
-        {attachment && (
-          <div>
-            <img src={attachment} width='50px' height='50px' />
-            <button onClick={onClearAttachment}>Clear</button>
-          </div>
-        )}
-        <div>
-          <h2>Rating from state: {rating}</h2>
-          <StarRatingComponent name='rate1' starCount={5} value={rating} onStarClick={(nextValue, prevValue, name) => setRating(nextValue)} />
+    <div className='enroll'>
+      <div className='enroll__wrap'>
+        <div className='enroll__text'>
+          <i className='fas fa-home fa-2x'></i>
+          <span>정보 등록</span>
         </div>
-      </form>
-    </>
+        <form className='enroll__form' onSubmit={onSubmit}>
+          <div className='enroll__address'>
+            <span>주소</span>
+            <input className='field__input' type='text' name='address' placeholder='옆에 검색 버튼 사용' maxLength={120} value={myAddress} onChange={onChange} />
+            <button
+              type='button'
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              <i className='fas fa-search'></i>검색
+            </button>
+            <Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
+              <DaumPostcode onComplete={handleComplete} />
+            </Modal>
+          </div>
+          <span>장점 </span>
+          <input type='text' name='advantage' placeholder='원룸의 장점' maxLength={120} value={advantage} onChange={onChange} />
+          <br />
+          <span>단점 </span>
+          <input type='text' name='disadvantage' placeholder='원룸의 단점' maxLength={120} value={disadvantage} onChange={onChange} />
+          <br />
+          <span>옵션 </span>
+          <input type='text' name='option' placeholder='풀 옵션' maxLength={120} value={option} onChange={onChange} />
+          <br />
+          <span>공과금</span>
+          <input type='text' name='utilities' placeholder='전기세 / 수도세 / 가스비' maxLength={120} value={utilities} onChange={onChange} />
+          <br />
+          <span>방값 </span>
+          <input type='text' name='cost' placeholder='기간 / 유형 / 보증금 / 가격' maxLength={120} value={cost} onChange={onChange} />
+          <br />
+          <span>기타 </span>
+          <input type='text' name='etc' placeholder='고려사항' maxLength={120} value={etc} onChange={onChange} />
+          <div className='filebox'>
+            <input className='upload-name' value={fileName} placeholder='사진파일' />
+            <label for='file'>파일찾기</label>
+            <input type='file' id='file' accpet='image/*' onChange={onFileChange} />
+            {attachment && (
+              <div>
+                <img src={attachment} width='70px' height='70px' />
+                <button onClick={onClearAttachment}>
+                  <i className='fas fa-trash-alt'></i>
+                </button>
+              </div>
+            )}
+          </div>
+          <br />
+          <div className='enroll__rate'>
+            <div>
+              <span>추천도 </span>
+            </div>
+            <StarRatingComponent className='rate' name='rate1' starCount={5} value={rating} onStarClick={(nextValue, prevValue, name) => setRating(nextValue)} />
+          </div>
+          <input className='form__submit' type='submit' value='등록' disabled={disabled} />
+        </form>
+      </div>
+    </div>
   );
 };
 
