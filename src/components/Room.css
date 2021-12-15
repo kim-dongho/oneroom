@@ -99,6 +99,12 @@
 .roomphoto {
   cursor: pointer;
 }
+.pro-sidebar-footer {
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 #myMap {
   height: 100vh;
   width: 100%;

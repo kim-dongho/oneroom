@@ -81,9 +81,7 @@ const Room = ({ roomObj }) => {
             </SidebarContent>
           )}
           <SidebarFooter>
-            <Menu iconShape='square'>
-              <MenuItem></MenuItem>
-            </Menu>
+            <p>Copyright&copy;2021 Oneroom All right reserved</p>
           </SidebarFooter>
         </ProSidebar>
         <div id='myMap'></div>

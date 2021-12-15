@@ -58,6 +58,7 @@ const Enroll = ({ userObj }) => {
     setRating(0);
     setDisabled(false);
     setCost('');
+    alert('정보등록이 완료되었습니다.');
   };
 
   const onChange = (event) => {
