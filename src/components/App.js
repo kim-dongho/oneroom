@@ -7,7 +7,6 @@ import './App.css';
 function App() {
   const [init, setInit] = useState(false);
   const [userObj, setUserObj] = useState(null);
-
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {

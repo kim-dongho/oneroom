@@ -27,9 +27,12 @@ const AuthForm = () => {
       if (newAccount) {
         //create Account
         data = await createUserWithEmailAndPassword(authService, email, password);
+        alert('회원가입이 완료되었습니다.');
       } else {
         //Log In
         data = await signInWithEmailAndPassword(authService, email, password);
+        alert('로그인 되었습니다.');
+        Navigate('/');
       }
       console.log(data);
       setIsSubmit(true);
@@ -44,20 +47,13 @@ const AuthForm = () => {
   const toggleAccount = () => {
     setNewAccount((prev) => !prev);
   };
-  const login = (event) => {
-    if (newAccount) {
-      alert('회원가입이 완료되었습니다.');
-    } else {
-      alert('로그인 되었습니다.');
-      Navigate('/');
-    }
-  };
+
   return (
     <div className='auth__submit'>
       <form className='auth__form' onSubmit={onSubmit}>
         <input name='email' type='email' placeholder='E-mail' required value={email} onChange={onChange} />
         <input name='password' type='password' placeholder='Password' required value={password} onChange={onChange} />
-        <input type='submit' value={newAccount ? '계정 만들기' : '로그인'} onClick={login} />
+        <input type='submit' value={newAccount ? '계정 만들기' : '로그인'} />
         {error}
       </form>
       <button onClick={toggleAccount}>{newAccount ? '로그인' : '계정 만들기'}</button>
