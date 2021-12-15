@@ -4,7 +4,7 @@ import { authService } from '../fbase';
 import './Navigation.css';
 const Navigation = ({ userObj, isLoggedIn }) => {
   const Navigate = useNavigate();
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
 
   const handleToggle = () => {
     if (window.innerWidth <= 768) {
