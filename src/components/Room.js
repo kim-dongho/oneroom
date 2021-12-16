@@ -27,8 +27,9 @@ const Room = ({ roomObj }) => {
       kakao.maps.event.addListener(marker, 'click', function () {
         setMarkerData([]);
         roomObj.forEach((data) => {
-          if (data.roomLatLan[1] == marker.getPosition().getLng().toFixed(12)) {
+          if (data.roomLatLan[1] == marker.getPosition().getLng().toFixed(12) || data.roomLatLan[1] == marker.getPosition().getLng().toFixed(11)) {
             setMarkerData((prev) => [...prev, data]);
+            console.log(data);
           }
         });
         setMenuCollapse(false);
